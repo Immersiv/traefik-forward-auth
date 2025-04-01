@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -179,7 +180,11 @@ func MakeCookie(r *http.Request, email string) *http.Cookie {
 }
 
 func MakeUserCookie(r *http.Request, email string, picture string, fullName string) *http.Cookie {
-	value := fmt.Sprintf("%s|%s|%s", email, picture, fullName)
+	value := fmt.Sprintf("%s|%s|%s",
+		url.QueryEscape(email),
+		url.QueryEscape(picture),
+		url.QueryEscape(fullName),
+	)
 
 	return &http.Cookie{
 		Name:     "user_info",
