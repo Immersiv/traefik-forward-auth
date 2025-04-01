@@ -178,6 +178,20 @@ func MakeCookie(r *http.Request, email string) *http.Cookie {
 	}
 }
 
+func MakeUserCookie(r *http.Request, email string, picture string, fullName string) *http.Cookie {
+	value := fmt.Sprintf("%s|%s|%s", email, picture, fullName)
+
+	return &http.Cookie{
+		Name:     "user_info",
+		Value:    value,
+		Path:     "/",
+		Domain:   cookieDomain(r),
+		HttpOnly: true,
+		Secure:   !config.InsecureCookie,
+		Expires:  cookieExpiry(),
+	}
+}
+
 // ClearCookie clears the auth cookie
 func ClearCookie(r *http.Request) *http.Cookie {
 	return &http.Cookie{
