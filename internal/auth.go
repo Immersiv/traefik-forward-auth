@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -175,6 +176,24 @@ func MakeCookie(r *http.Request, email string) *http.Cookie {
 		HttpOnly: true,
 		Secure:   !config.InsecureCookie,
 		Expires:  expires,
+	}
+}
+
+func MakeUserCookie(r *http.Request, email string, picture string, fullName string) *http.Cookie {
+	value := fmt.Sprintf("%s|%s|%s",
+		url.QueryEscape(email),
+		url.QueryEscape(picture),
+		url.QueryEscape(fullName),
+	)
+
+	return &http.Cookie{
+		Name:     "user_info",
+		Value:    value,
+		Path:     "/",
+		Domain:   cookieDomain(r),
+		HttpOnly: true,
+		Secure:   !config.InsecureCookie,
+		Expires:  cookieExpiry(),
 	}
 }
 
