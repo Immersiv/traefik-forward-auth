@@ -1,8 +1,8 @@
 module github.com/thomseddon/traefik-forward-auth
 
-go 1.25
+go 1.27
 
-toolchain go1.25.0
+toolchain go1.27.1
 
 require (
 	github.com/coreos/go-oidc v2.4.0+incompatible
